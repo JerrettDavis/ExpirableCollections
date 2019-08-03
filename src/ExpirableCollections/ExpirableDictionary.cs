@@ -11,7 +11,7 @@ namespace ExpirableCollections
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
-    public class ExpirableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    public class ExpirableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDisposable
     {
         private readonly IDictionary<TKey, Tuple<DateTime, TValue>> _dictionary
             = new Dictionary<TKey, Tuple<DateTime, TValue>>();
@@ -267,5 +267,11 @@ namespace ExpirableCollections
             }
         }
         #endregion
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
+            _dictionary.Clear();
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace ExpirableCollections
     /// A list that removes items after a set amount of time.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExpirableList<T> : IList<T>
+    public class ExpirableList<T> : IList<T>, IDisposable
     {
         private readonly List<Tuple<DateTime, T>> _collection = new 
             List<Tuple<DateTime, T>>();
@@ -173,5 +173,10 @@ namespace ExpirableCollections
             _collection.Clear();
         }
         #endregion
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
+        }
     }
 }
